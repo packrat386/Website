@@ -1,0 +1,4 @@
+.wrapper{
+    width: 800px;
+    margins: 0 auto;
+}

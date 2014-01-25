@@ -1,15 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
-    <title>Coming Soon!</title>
+    <!--CSS-->
+    <link type="text/css" rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="default.css"/>
+    <title>Home</title>
   </head>
   <body>
-    <div id="header">
-      <div id="sorry">Sorry!</div>
+    <!--NavBar -->
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="navbar-header">
+	<a class="navbar-brand" href="#">Home</a>
+      </div>
+      
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	<ul class="nav navbar-nav">
+	  <li><a href="#">Blog</a></li>
+	  <li><a href="#">Projects</a></li>
+	</ul>
+	<p class="nav navbar-text pull-right">Check out my <a href="https://github.com/packrat386">Github</a>!</p>
+      </div>
+    </nav>
+
+
+    <!--Content-->
+    <div id="wrapper">
+      <h1>Sorry!</h1>
+      <p>This site is under construction. It will grow more as I learn about web dev</p>
     </div>
-    <div id="message">
-      <p>This is page is still under construction. It will grow as I learn more about web development.</p>
-    </div>
+    <!--Scripts-->
+    <script src="jquery/jquery.min.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
   </body>
 </html>
