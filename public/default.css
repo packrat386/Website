@@ -1,4 +1,8 @@
 #wrapper{
-    width: 800px;
+    width: 1000px;
     margin: 0 auto;
 }
+
+.col-md-8 h3{
+    text-align: center;
+} 
