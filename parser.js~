@@ -1,0 +1,8 @@
+var http = require('http');
+
+var getPageData = function(var title){
+    var link = "http://en.wikipedia.org/w/api.php?format=json&action=query&titles=" + title + "&prop=revisions&rvprop=content";
+    var options = {
+	host = '
+    }
+};
