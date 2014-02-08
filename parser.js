@@ -61,10 +61,31 @@ var parsePage = function(page){
 };
 
 var parseGroupStage = function(lines) {
-	var inGroupTable = false,
+	var inGroupStage = false,
+		groupStageCount = 1,
+		groupStageHeadingLevel = 0,
+		inGroupTable = false,
 		result;
 	
 	for(i in lines){
+		// If we are in a group stage section, look for a heading that could close this section
+		if (inGroupStage && /^(=+).*=+$/.test(lines[i])) {
+			result = /^(=+).*=+$/.exec(lines[i]);
+			// Close the current group stage if section ends
+			// (new heading with at same level, or level closer to 1)
+			if (result[1].match(/=/g).length <= groupStageHeadingLevel) {
+				groupStageCount++;
+				inGroupStage = false;
+				groupStageHeadingLevel = 0;
+			}
+		}
+		// Look for a Group Stage heading (not mandatory)
+		if(/^(=+)[\s]*Group Stage.*=+$/i.test(lines[i])) {
+			result = /^(=+)[\s]*Group Stage.*=+$/i.exec(lines[i]);
+			inGroupStage = true;
+			groupStageHeadingLevel = result[1].match(/=/g).length;
+		}
+		// Look for a GroupTableStart line
 		if(/\{\{(Template:)?GroupTableStart/i.test(lines[i])) {
 			inGroupTable = true;
 		}
