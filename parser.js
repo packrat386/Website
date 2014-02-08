@@ -128,8 +128,6 @@ var parsePage = function(page){
 	console.log("done");
 	parseGroupStage(lines, vars);
 	console.log("done");
-	
-	genOut(vars.data);
 };
 
 var parseBracket = function(lines, vars){
@@ -147,9 +145,9 @@ var parseBracket = function(lines, vars){
 	for(i in lines){
 		//if we're in a bracket
 		if(bracketRE.test(lines[i])){
-			//if we're already in a bracket, make closing action
+			//if we're already in a bracket, clear data
 			if(inBracket){
-				generateBracketDistTable(bracketTitle, races, vars);
+				data = {}
 			} else {
 				inBracket = true;
 				result = bracketRE.exec(lines[i]);
@@ -177,31 +175,37 @@ var parseBracket = function(lines, vars){
 		}
 	}
 
-	// if end of page is reached, make closing action for "open" brackets
-	if (inBracket) {
-		generateBracketDistTable(bracketTitle, races, vars);
+	// if bracket data has been found, generate the distribution table data
+	if(inBracket){
+		data = generateBracketDistTableData(bracketTitle, races);
+		for(i in data) {
+			vars.data[i] = data[i];
+		}
 	}
 };
 
-var generateBracketDistTable = function(bracketTitle, races, vars) {
+var generateBracketDistTableData = function(bracketTitle, races) {
 	var map,
 		distLine,
 		i,
-		race;
+		race,
+		data = {};
 
 	if(bracketRaceDistributionsMap[bracketTitle] !== undefined){
 		map = bracketRaceDistributionsMap[bracketTitle];
 		for(distLine in map){
-			vars.data[distLine] = {"p": 0, "t": 0, "z": 0, "r": 0, "nyd": 0};
+			data[distLine] = {"p": 0, "t": 0, "z": 0, "r": 0, "nyd": 0};
 			for(i = 0; i < map[distLine].length; i++){
 				var race = races[map[distLine][i]];
 				if (race !== undefined)
-					vars.data[distLine][races[map[distLine][i]]]++;
+					data[distLine][races[map[distLine][i]]]++;
 				else
-					vars.data[distLine]['nyd']++;
+					data[distLine]['nyd']++;
 			}
 		}
 	}
+
+	return data;
 };
 
 var parseGroupStage = function(lines, vars) {
