@@ -38,18 +38,45 @@ var getPageData = function(title, callback){
 var parsePage = function(page){
     //first we split it into an array called lines
     var lines = page.split(/\r\n|\r|\n/g);
-    var count = 1;
-    var inBracket = false;
+
+    parseBracket(lines);
+    console.log("done");
+    parseGroupStage(lines);
+    console.log("done");
+    
+};
+
+var parseBracket = function(lines){
+    var DE;
+    var numPlayers;
     var result;
+    var data = {};
+    var bracketRE = /{{(.*)bracket$/i;
+    var inBracket = false;
+
+    console.log("we're parsing brackets");
 
     for(i in lines){
-	if(/{{(.*)bracket$/i.test(lines[i])){
+	//if we're in a bracket
+	if(bracketRE.test(lines[i])){
 	    inBracket = true;
+	    result = bracketRE.exec(lines[i]);
+	    //check if its a standard bracket
+	    if(/(\d+)(S|D)E/i.test(result[1])){
+		result = /(\d+)(S|D)E/.exec(result[1]);
+		if(result[2] != 'D'){
+		    DE = false;
+		}else{
+		    DE = true;
+		}
+		numPlayers = result[1];
+	    }
 	}
+
 	if(inBracket){
-	    if(/\|R(\d+)(D|W)\d+race=([ztpr])/i.test(lines[i])){
-		result = /\|R(\d+)(D|W)\d+race=([ztpr])/i.exec(lines[i]);	
-		console.log("Found Round " + result[1] + " " + result[2] + " race: " + result[3]);
+	    if(/\|R(\d+)(D|W)(\d+)race=([ztpr])/i.test(lines[i])){
+		result = /\|R(\d+)(D|W)(\d+)race=([ztpr])/i.exec(lines[i]);	
+		console.log("Found Round " + result[1] + " " + result[2] + result[3] + " race: " + result[4]);
 	    }
 	}
 	if(/{{:(.*)}}/.test(lines[i])){
@@ -57,6 +84,7 @@ var parsePage = function(page){
 	    console.log("found link: ");
 	    console.log(result[1]);
 	}
+
     }
 };
 
@@ -102,6 +130,27 @@ var parseGroupStage = function(lines) {
 
 	return returnObject;
 };
+
+var genOut = function(data){
+    var cum = '';
+    var line = '';
+    for(key in data){
+	line += "{{RaceDist|title=";
+	line += key;
+	line += "|protoss=";
+	line += data.key.protoss;
+	line += "|terran=";
+	line += data.key.terran;
+	line += "|protoss=";
+	line += data.key.zerg;
+	line += "|nyd=";
+	line += data.key.protoss + data.key.terran + data.key.protoss;
+	line += "}}";
+	cum += line;
+    }
+
+    console.log(cum);
+}
 
 module.exports.getPageData = getPageData;
 module.exports.parsePage = parsePage;
