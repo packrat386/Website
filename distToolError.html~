@@ -25,7 +25,10 @@
     <div class="container">
       <div id="small_wrapper">
 	<h1 style="text-align:center">Liquipedia Starcraft 2 Racial Distribution Tool</h1>
-	<p style="padding-bottom: 30px">For this tool you need to input the page name exactly as it appears in the URL (underscores and all). Hit submit and it will give you back  properly formatted wikicode for a race distribution table.
+	<p>For this tool you need to input the <em>page name</em> exactly as it appears in the URL (underscores and all). Hit submit and it will give you back  properly formatted wikicode for a race distribution table.</p>
+	<div class="well" style="padding-bottom: 30px">  
+	  For example, 'IEM_Season_VIII_-_Sao_Paulo/American_Qualifier', not 'http://wiki.teamliquid.net/starcraft2/IEM_Season_VIII_-_Sao_Paulo/American_Qualifier' or 'IEM Season VIII Sao Paulo'.
+	</div>
 	  <div style="text-align: center">
 	    <form method="post" action="/BracketDistTool">
 	      <input type="text" name="page">

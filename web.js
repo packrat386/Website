@@ -35,11 +35,11 @@ app.post('/BracketDistTool', function(req,res) {
 	    for(i in page.query.pages){
 		if(page.query.pages[i].revisions != undefined){
 		    code = parser.parsePage(page.query.pages[i].revisions[0]['*']);
+		    res.send(fragments.codeHeader + "<p>Table for: " + req.body.page + "</p><pre>" +  code + "</pre>" + fragments.codeFooter);
 		}else{
-		    res.send("Input error, please hit back");
+		    res.sendfile("distToolError.html");
 		}
 	    }
-	    res.send(fragments.codeHeader + "<p>Table for: " + req.body.page + "</p><div class=\"well\">" +  code + "</div>" + fragments.codeFooter);
 	}	    
     }); 
 });

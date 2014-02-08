@@ -267,7 +267,7 @@ var genOut = function(data){
     }
     for(key in data){
 	line = "{{RaceDist|title=";
-	line += key.replace(/ /g, "&nbsp;");
+	line += key.replace(/ /g, "&amp;nbsp;");
 	line += "|protoss=";
 	line += data[key].p;
 	line += "|terran=";
