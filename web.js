@@ -33,12 +33,14 @@ app.post('/BracketDistTool', function(req,res) {
 	console.log("we're in a callback!");
 	if(page.query.pages != undefined){
 	    for(i in page.query.pages){
-		code = parser.parsePage(page.query.pages[i].revisions[0]['*']);
+		if(page.query.pages[i].revisions != undefined){
+		    code = parser.parsePage(page.query.pages[i].revisions[0]['*']);
+		}else{
+		    res.send("Input error, please hit back");
+		}
 	    }
 	    res.send(fragments.codeHeader + "<p>Table for: " + req.body.page + "</p><div class=\"well\">" +  code + "</div>" + fragments.codeFooter);
-	}else{
-	    res.send("error, incorrect input, please go back and try again");
-	}
+	}	    
     }); 
 });
 
