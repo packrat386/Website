@@ -185,10 +185,8 @@ var parseBracket = function(lines, vars){
 };
 
 var generateBracketDistTableData = function(bracketTitle, races) {
-	var map,
-		distLine,
-		i,
-		race,
+	var map, distLine,
+		i, race,
 		data = {};
 
 	if(bracketRaceDistributionsMap[bracketTitle] !== undefined){
