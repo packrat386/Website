@@ -60,6 +60,8 @@ var parsePage = function(page){
 		}
 		numPlayers = result[1];
 	    }
+
+	       
 	}
 	if(inBracket){
 	    if(/\|R(\d+)(D|W)(\d+)race=([ztpr])/i.test(lines[i])){
