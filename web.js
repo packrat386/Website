@@ -1,9 +1,13 @@
 
-// web.js
+
+//things I need for node
 var express = require("express");
 var logfmt = require("logfmt");
 var path = require("path");
 var app = express();
+
+//importing my own functions
+var parser = require('./parser.js');
 
 app.use(logfmt.requestLogger());
 
@@ -23,6 +27,12 @@ app.get('/BracketDistTool', function(req,res) {
 });
 
 app.post('/BracketDistTool', function(req,res) {
+    parser.getPageData(req.body.page, function(page){
+	console.log("we're in a callback!");
+	for(i in page.query.pages){
+	    console.log(page.query.pages[i].revisions[0]['*']);
+	}
+    }); 
     res.send("you requested: " + req.body.page);
 });
 
