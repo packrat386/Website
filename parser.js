@@ -69,9 +69,9 @@ var parseGroupStage = function(lines) {
 			inGroupTable = true;
 		}
 		if(inGroupTable){
-			if(/\{\{(Template\:)?GroupTableSlot[\s]?\|(.*)race=([ztpr])/i.test(lines[i])) {
-				result = /\{\{(Template\:)?GroupTableSlot[\s]?\|.*race=([ztpr])/i.exec(lines[i]);
-				console.log("Found Group Stage - race:", result[2]);
+			if(/\{\{(Template\:)*GroupTableSlot[\s]?\|(.*)race=([ztpr])/i.test(lines[i])) {
+				result = /\{\{(Template\:)*GroupTableSlot[\s]*\|.*race=([ztpr])/i.exec(lines[i]);
+				console.log("Found Group Stage " + groupStageCount + " race:", result[2]);
 			}
 		}
 	}
