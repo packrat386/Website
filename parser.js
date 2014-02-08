@@ -44,12 +44,13 @@ var parsePage = function(page){
     var numPlayers;
     var result;
     var data = {};
+    var bracketRE = /{{(.*)bracket$/i;
 
     for(i in lines){
 	//if we're in a bracket
-	if(/{{(.*)bracket$/i.test(lines[i])){
+	if(bracketRD.test(lines[i])){
 	    inBracket = true;
-	    result = /{{(.*)bracket$/i.exec(lines[i]);
+	    result = bracketRE.exec(lines[i]);
 	    //check if its a standard bracket
 	    if(/(\d+)(S|D)E/i.test(result[1]){
 		result = /(\d+)(S|D)E/.exec(result[1]);
@@ -61,6 +62,7 @@ var parsePage = function(page){
 		numPlayers = result[1];
 	    }
 	}
+		
 	if(inBracket){
 	    if(/\|R(\d+)(D|W)(\d+)race=([ztpr])/i.test(lines[i])){
 		result = /\|R(\d+)(D|W)\d+race=([ztpr])/i.exec(lines[i]);	
@@ -68,12 +70,51 @@ var parsePage = function(page){
 	    }
 	}
 	if(/{{:(.*)}}/.test(lines[i])){
-	    result = /{{:(.*)}}/.exec(lines[i]);
+		result = /{{:(.*)}}/.exec(lines[i]);
 	    console.log("found link: ");
 	    console.log(result[1]);
 	}
-    }
-}
 	
+    }
+};
+
+var parseGroupStage = function(lines) {
+    var inGroupStage = false,
+    groupStageCount = 1,
+    groupStageHeadingLevel = 0,
+    inGroupTable = false,
+    result;
+    
+    for(i in lines){
+	// If we are in a group stage section, look for a heading that could close this section
+	if (inGroupStage && /^(=+).*=+$/.test(lines[i])) {
+	    result = /^(=+).*=+$/.exec(lines[i]);
+	    // Close the current group stage if section ends
+	    // (new heading with at same level, or level closer to 1)
+	    if (result[1].match(/=/g).length <= groupStageHeadingLevel) {
+		groupStageCount++;
+		inGroupStage = false;
+		groupStageHeadingLevel = 0;
+	    }
+	}
+	// Look for a Group Stage heading (not mandatory)
+	if(/^(=+)[\s]*Group Stage.*=+$/i.test(lines[i])) {
+	    result = /^(=+)[\s]*Group Stage.*=+$/i.exec(lines[i]);
+	    inGroupStage = true;
+	    groupStageHeadingLevel = result[1].match(/=/g).length;
+	}
+	// Look for a GroupTableStart line
+	if(/\{\{(Template:)?GroupTableStart/i.test(lines[i])) {
+	    inGroupTable = true;
+	}
+	if(inGroupTable){
+	    if(/\{\{(Template\:)*GroupTableSlot[\s]?\|(.*)race=([ztpr])/i.test(lines[i])) {
+		result = /\{\{(Template\:)*GroupTableSlot[\s]*\|.*race=([ztpr])/i.exec(lines[i]);
+		console.log("Found Group Stage " + groupStageCount + " race:", result[2]);
+	    }
+	}
+    }
+};
+
 module.exports.getPageData = getPageData;
 module.exports.parsePage = parsePage;
