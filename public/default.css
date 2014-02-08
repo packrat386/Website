@@ -3,6 +3,11 @@
     margin: 0 auto;
 }
 
+#small_wrapper{
+    width: 800px;
+    margin: 0 auto;
+}
+
 .col-md-7 h3{
     text-align: center;
 }

@@ -28,12 +28,13 @@ app.get('/BracketDistTool', function(req,res) {
 
 app.post('/BracketDistTool', function(req,res) {
     parser.getPageData(req.body.page, function(page){
+	var code;
 	console.log("we're in a callback!");
 	for(i in page.query.pages){
-	  parser.parsePage(page.query.pages[i].revisions[0]['*']);
+	  code = parser.parsePage(page.query.pages[i].revisions[0]['*']);
 	}
+	res.send(code);
     }); 
-    res.send("you requested: " + req.body.page);
 });
 
 var port = process.env.PORT || 5000;
