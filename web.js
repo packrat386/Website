@@ -8,6 +8,7 @@ var app = express();
 
 //importing my own functions
 var parser = require('./parser.js');
+var fragments = require('./fragments.js');
 
 app.use(logfmt.requestLogger());
 
@@ -28,12 +29,12 @@ app.get('/BracketDistTool', function(req,res) {
 
 app.post('/BracketDistTool', function(req,res) {
     parser.getPageData(req.body.page, function(page){
-	var code;
+	var code = '';
 	console.log("we're in a callback!");
 	for(i in page.query.pages){
 	  code = parser.parsePage(page.query.pages[i].revisions[0]['*']);
 	}
-	res.send(code);
+	res.send(fragments.codeHeader + "<p>Table for: " + req.body.page + "</p><div class=\"well\">" +  code + "</div>" + fragments.codeFooter);
     }); 
 });
 
