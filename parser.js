@@ -65,7 +65,8 @@ var parseGroupStage = function(lines) {
 		groupStageCount = 1,
 		groupStageHeadingLevel = 0,
 		inGroupTable = false,
-		result;
+		result,
+		returnObject = {"Group Stage 1": {"p": 0, "t": 0, "z": 0, "r": 0}};
 	
 	for(i in lines){
 		// If we are in a group stage section, look for a heading that could close this section
@@ -75,6 +76,7 @@ var parseGroupStage = function(lines) {
 			// (new heading with at same level, or level closer to 1)
 			if (result[1].match(/=/g).length <= groupStageHeadingLevel) {
 				groupStageCount++;
+				returnObject["Group Stage " + groupStageCount] = {"p": 0, "t": 0, "z": 0, "r": 0};
 				inGroupStage = false;
 				groupStageHeadingLevel = 0;
 			}
@@ -93,9 +95,12 @@ var parseGroupStage = function(lines) {
 			if(/\{\{(Template\:)*GroupTableSlot[\s]?\|(.*)race=([ztpr])/i.test(lines[i])) {
 				result = /\{\{(Template\:)*GroupTableSlot[\s]*\|.*race=([ztpr])/i.exec(lines[i]);
 				console.log("Found Group Stage " + groupStageCount + " race:", result[2]);
+				returnObject["Group Stage " + groupStageCount][race]++;
 			}
 		}
 	}
+
+	return returnObject;
 };
 
 module.exports.getPageData = getPageData;
