@@ -58,7 +58,24 @@ var parsePage = function(page){
 	    console.log(result[1]);
 	}
     }
-}
+};
+
+var parseGroupStage = function(lines) {
+	var inGroupTable = false,
+		result;
+	
+	for(i in lines){
+		if(/\{\{(Template:)?GroupTableStart/i.test(lines[i])) {
+			inGroupTable = true;
+		}
+		if(inGroupTable){
+			if(/\{\{(Template\:)?GroupTableSlot[\s]?\|(.*)race=([ztpr])/i.test(lines[i])) {
+				result = /\{\{(Template\:)?GroupTableSlot[\s]?\|.*race=([ztpr])/i.exec(lines[i]);
+				console.log("Found Group Stage - race:", result[2]);
+			}
+		}
+	}
+};
 
 module.exports.getPageData = getPageData;
 module.exports.parsePage = parsePage;
