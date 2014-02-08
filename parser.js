@@ -38,17 +38,27 @@ var getPageData = function(title, callback){
 var parsePage = function(page){
     //first we split it into an array called lines
     var lines = page.split(/\r\n|\r|\n/g);
-    var count = 1;
-    var inBracket = false;
+
+    parseBracket(lines);
+    console.log("done");
+    parseGroupStage(lines);
+    console.log("done");
+    
+};
+
+var parseBracket = function(lines){
     var DE; 
     var numPlayers;
     var result;
     var data = {};
     var bracketRE = /{{(.*)bracket$/i;
+    var inBracket = false;
+
+    console.log("we're parsing brackets");
 
     for(i in lines){
 	//if we're in a bracket
-	if(bracketRD.test(lines[i])){
+	if(bracketRE.test(lines[i])){
 	    inBracket = true;
 	    result = bracketRE.exec(lines[i]);
 	    //check if its a standard bracket
@@ -65,7 +75,7 @@ var parsePage = function(page){
 		
 	if(inBracket){
 	    if(/\|R(\d+)(D|W)(\d+)race=([ztpr])/i.test(lines[i])){
-		result = /\|R(\d+)(D|W)\d+race=([ztpr])/i.exec(lines[i]);	
+		result = /\|R(\d+)(D|W)(\d+)race=([ztpr])/i.exec(lines[i]);	
 		console.log("Found Round " + result[1] + " " + result[2] + result[3] + " race: " + result[4]);
 	    }
 	}
@@ -85,6 +95,8 @@ var parseGroupStage = function(lines) {
     inGroupTable = false,
     result;
     
+    console.log("we're parsing groups");
+
     for(i in lines){
 	// If we are in a group stage section, look for a heading that could close this section
 	if (inGroupStage && /^(=+).*=+$/.test(lines[i])) {
