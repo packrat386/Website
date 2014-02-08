@@ -52,7 +52,7 @@ var parsePage = function(page){
 	    inBracket = true;
 	    result = bracketRE.exec(lines[i]);
 	    //check if its a standard bracket
-	    if(/(\d+)(S|D)E/i.test(result[1]){
+	    if(/(\d+)(S|D)E/i.test(result[1])){
 		result = /(\d+)(S|D)E/.exec(result[1]);
 		if(result[2] != 'D'){
 		    DE = false;
