@@ -35,4 +35,30 @@ var getPageData = function(title, callback){
     });
 };
 
+var parsePage = function(page){
+    //first we split it into an array called lines
+    var lines = page.split(/\r\n|\r|\n/g);
+    var count = 1;
+    var inBracket = false;
+    var result;
+
+    for(i in lines){
+	if(/{{(.*)bracket$/i.test(lines[i])){
+	    inBracket = true;
+	}
+	if(inBracket){
+	    if(/\|R(\d+)(D|W)\d+race=([ztpr])/i.test(lines[i])){
+		result = /\|R(\d+)(D|W)\d+race=([ztpr])/i.exec(lines[i]);	
+		console.log("Found Round " + result[1] + " " + result[2] + " race: " + result[3]);
+	    }
+	}
+	if(/{{:(.*)}}/.test(lines[i])){
+	    result = /{{:(.*)}}/.exec(lines[i]);
+	    console.log("found link: ");
+	    console.log(result[1]);
+	}
+    }
+}
+
 module.exports.getPageData = getPageData;
+module.exports.parsePage = parsePage;

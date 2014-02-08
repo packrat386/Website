@@ -30,7 +30,7 @@ app.post('/BracketDistTool', function(req,res) {
     parser.getPageData(req.body.page, function(page){
 	console.log("we're in a callback!");
 	for(i in page.query.pages){
-	    console.log(page.query.pages[i].revisions[0]['*']);
+	  parser.parsePage(page.query.pages[i].revisions[0]['*']);
 	}
     }); 
     res.send("you requested: " + req.body.page);
