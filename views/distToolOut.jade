@@ -1,0 +1,14 @@
+doctype html
+doctype html
+html
+  include includes/head
+  body
+    include includes/navbar
+    .container
+      #small_wrapper
+        h1(style="text-align:center") Liquipedia Starcraft 2 Bracket Distribution Tool
+        p(style="padding-bottom:20px") The wiki code for the race distribution graph is below
+        pre.
+          #{output}
+        p
+          a(href="/BracketDistTool") New Query

@@ -1,0 +1,13 @@
+doctype html
+html
+  include /head
+  body
+    include /navbar
+    .container
+      #small_wrapper
+        h1(style="text-align:center") Liquipedia Starcraft 2 Bracket Distribution Tool
+        p For this tool you need to input the URL of the tournament page that you would like to see the race distribution for. Hit submit and it will give you back properly formatted wikicode for a race distribution table.
+        div(style="text-align:center")
+          form(method="post" action="/BracketDistTool")
+            input(type="text" name="page")
+            input(type="submit" value="Get Code!")

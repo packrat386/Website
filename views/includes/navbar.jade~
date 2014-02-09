@@ -1,0 +1,12 @@
+nav(class="navbar navbar-default" role="navigation")
+  .navbar-header
+    a(class="navbar-brand" href="/") Home
+    div(class="collapse navbar-collapse")
+      ul
+        li
+          a(href="#") Blog
+        li
+          a(href="#") Projects
+      p(class="nav navbat-text pull-right")
+        |Check out my <a href="https://github.com/packrat386">Github</a>!
+        

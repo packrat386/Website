@@ -1,0 +1,10 @@
+!!!5
+  head
+    title = #{title}
+  body
+    h1
+      My First Jade Page
+    p
+      The title of this page is #{title}
+      
+        
